@@ -1,1 +1,1 @@
-![diagram](/uploads/78ede38d616332251bcc92fdf2e72468/diagram.png)
+![diagram](http://gitlab.icc.spbstu.ru/grafa/wine_card/raw/master/structure.png)
