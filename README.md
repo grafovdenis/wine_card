@@ -4,7 +4,7 @@
 * [Структура](#Структура)
 
 ## Общая информация
-В данный момент проект содержит 10 таблиц: 5 основных и 5 для связей [n-n](https://en.wikipedia.org/wiki/Many-to-many_(data_model)).
+На данный момент проект содержит 10 таблиц: 5 основных и 5 для связей [n-n](https://en.wikipedia.org/wiki/Many-to-many_(data_model)).
 А так же тип drink_type.
 ```sql
 CREATE TYPE drink_type AS ENUM (
