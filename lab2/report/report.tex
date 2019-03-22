@@ -7,6 +7,8 @@
 % Титульная страница
 \include{titlepage}
 
+\newpage
+\setcounter{page}{2}
 % Содержание
 \include{ToC}
 
@@ -30,6 +32,17 @@
 	\item SQL-DDL (Data Definition Language) - язык определения структур и ограничений целостности баз данных. Сюда относятся команды создания и удаления баз данных; создания, изменения и удаления таблиц; управления пользователями и т.д.
 	\item SQL-DML (Data Manipulation Language) - язык манипулирования данными: добавление, изменение, удаление и извлечение данных, управления транзакциями
 \end {itemize}
+
+\subsection{Операции ON DELETE и ON UPDATE}
+Выражения ON DELETE и ON UPDATE внешних ключей используются для указания действий, которые будут выполняться при удалении строк родительской таблицы (ON DELETE) или изменении родительского ключа (ON UPDATE). Один и тот же внешний ключ может иметь различные действия, указанные для ON DELETE и ON UPDATE.
+
+В базе данных PostgreSQL действия ON DELETE и ON UPDATE, ассоциированные с внешним ключом, могут быть следующими: NO ACTION, RESTRICT, SET NULL, SET DEFAULT или CASCADE. Если действие не указывается специально, оно по умолчанию является NO ACTION.
+Рассмотрим действия, используемые в данной лабораторной работе.
+
+\begin{itemize}
+	\item \textbf{NO ACTION}: опция «NO ACTION» означает, что когда родительский ключ изменяется или удаляется из базы данных, никаких специальных действий не производится.
+	\item \textbf{CASCADE}: действие «CASCADE» распространяет операции удаления и изменения родительского ключа на зависящие от него дочерние ключи. Для действия ON DELETE CASCADE это выражается в том, что каждая строка дочерней таблицы, которая ассоциирована с удаляемой родительской строкой, также будет удалена. Для действия ON UPDATE CASCADE это выражается в том, что значения, сохранённые в зависящем дочернем ключе, будут заменены на новые значения родительского ключа.
+\end{itemize}
 
 \subsection{Типы данных}
 Символьные типы данных:
@@ -68,6 +81,9 @@
 
 \subsection {Инициализация}
 
+\begin{center}
+	Листинг 1: init.sql
+\end{center}
 \inputminted[
 frame=lines,
 framesep=2mm,
@@ -76,18 +92,11 @@ fontsize=\footnotesize,
 linenos
 ]{sql}{../src/init.sql}
 
-\subsection {Изменение}
-
-\inputminted[
-frame=lines,
-framesep=2mm,
-baselinestretch=1.2,
-fontsize=\footnotesize,
-linenos
-]{sql}{../src/changing.sql}
-
 \subsection {Заполнение}
 
+\begin{center}
+	Листинг 2: fill.sql
+\end{center}
 \inputminted[
 frame=lines,
 framesep=2mm,
@@ -96,10 +105,63 @@ fontsize=\footnotesize,
 linenos
 ]{sql}{../src/fill.sql}
 
+\subsection {Изменение}
+Формулировка требуемых изменений:
+\begin{enumerate}
+	\item Добавить цены на позиции меню в каждом конкретном баре.
+	\item Добавить поставки блюд и ингредиентов для коктейлей в бары.
+\end{enumerate}
+
+\begin{center}
+	Листинг 3: changing.sql
+\end{center}
+\inputminted[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+fontsize=\footnotesize,
+linenos
+]{sql}{../src/changing.sql}
+
+\section {Результат работы}
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=0.3]{../../structure.png}
+		\caption{Структура базы данных} 
+		\label{pic:struct} % название для ссылок внутри кода
+	\end{center}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=0.5]{./pics/drinks.png}
+		\caption{Содержимое таблицы drinks} 
+		\label{pic:drinks} % название для ссылок внутри кода
+	\end{center}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=0.5]{./pics/places.png}
+		\caption{Содержимое таблицы places} 
+		\label{pic:places} % название для ссылок внутри кода
+	\end{center}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=0.5]{./pics/places_drinks.png}
+		\caption{Содержимое таблицы places\_drinks} 
+		\label{pic:places_drinks} % название для ссылок внутри кода
+	\end{center}
+\end{figure}
+
+\newpage
 \section{Выводы}
 
-В ходе выполнения данной работы были написаны 3 скрипта на языке SQL: создающий таблицы; изменяющий таблицы и добавляющий новые; скрипт, наполняющий таблицы данными.
-Таким образом, было осуществлено моё знакомство с основами проектирования схемы БД SQL.
+В ходе выполнения данной работы были написаны 3 скрипта на языке PostgreSQL: создающий таблицы; наполняющий таблицы данными; изменяющий таблицы и добавляющий новые.
+Таким образом, было осуществлено моё знакомство с основами проектирования схемы БД, языком описания БД SQL-DDL.
 
 \end{document}
 

@@ -37,8 +37,8 @@ CREATE TABLE drinks
 
 CREATE TABLE components_drinks
 (
-  component_id int NOT NULL references components (component_id),
-  drink_id     int NOT NULL references drinks (drink_id),
+  component_id int NOT NULL references components (component_id) on delete cascade,
+  drink_id     int NOT NULL references drinks (drink_id) on delete cascade,
   quantity     double precision
 );
 
@@ -54,14 +54,14 @@ CREATE TABLE places
 
 CREATE TABLE places_drinks
 (
-  place_id integer NOT NULL references places (place_id),
-  drink_id integer NOT NULL references drinks (drink_id)
+  place_id integer NOT NULL references places (place_id) on delete cascade,
+  drink_id integer NOT NULL references drinks (drink_id) on delete cascade
 );
 
 CREATE TABLE discounts
 (
   discount_id serial           NOT NULL,
-  place_id    integer          NOT NULL references places (place_id),
+  place_id    integer          NOT NULL references places (place_id) on delete cascade,
   drink_type  drink_type       NOT NULL,
   amount      double precision NOT NULL,
   description text,
@@ -83,6 +83,6 @@ CREATE TABLE food
 
 CREATE TABLE places_food
 (
-  place_id integer NOT NULL references places (place_id),
-  snack_id integer NOT NULL references food (food_id)
+  place_id integer NOT NULL references places (place_id) on delete cascade,
+  snack_id integer NOT NULL references food (food_id) on delete cascade
 );

@@ -35,4 +35,7 @@ CREATE TYPE drink_type AS ENUM (
 
 
 ## Структура
-![diagram](http://gitlab.icc.spbstu.ru/grafa/wine_card/raw/master/structure.png)
+<a>
+  <img src="http://gitlab.icc.spbstu.ru/grafa/wine_card/raw/master/structure.png"  width="1000"/>
+</a>
+
