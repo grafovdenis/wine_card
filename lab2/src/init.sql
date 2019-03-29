@@ -18,7 +18,7 @@ CREATE TYPE drink_type AS ENUM (
 CREATE TABLE components
 (
   component_id serial                NOT NULL,
-  title        character varying(50) NOT NULL,
+  title        character varying(50) NOT NULL UNIQUE,
   alcohol      double precision,
   primary key (component_id)
 );
@@ -26,7 +26,7 @@ CREATE TABLE components
 CREATE TABLE drinks
 (
   drink_id      serial                NOT NULL,
-  title         character varying(50) NOT NULL,
+  title         character varying(50) NOT NULL UNIQUE,
   rating        double precision,
   volume        double precision,
   alcohol       double precision,
@@ -74,7 +74,7 @@ CREATE TABLE discounts
 CREATE TABLE food
 (
   food_id       serial                NOT NULL,
-  title         character varying(50) NOT NULL,
+  title         character varying(50) NOT NULL UNIQUE,
   rating        double precision,
   volume        double precision,
   average_price double precision,
