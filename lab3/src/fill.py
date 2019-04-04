@@ -11,9 +11,9 @@ conn = psycopg2.connect(dbname='wine_card', user='postgres', password=user_passw
 # set default settings
 with conn.cursor() as cursor:
     conn.autocommit = True
-    cursor.execute(open("../lab2/src/init.sql", "r").read())
-    cursor.execute(open("../lab2/src/fill.sql", "r").read())
-    cursor.execute(open("../lab2/src/change.sql", "r").read())
+    cursor.execute(open("../../lab2/src/init.sql", "r").read())
+    cursor.execute(open("../../lab2/src/fill.sql", "r").read())
+    cursor.execute(open("../../lab2/src/change.sql", "r").read())
 
     cursor.execute('SELECT unnest(enum_range(NULL::drink_type))::text;')
     drink_type = cursor.fetchall()
