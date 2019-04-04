@@ -13,13 +13,13 @@ alter table places_food
 
 create table supplies_food
 (
-  supplies_snacks_id serial not null,
+  supplies_food_id serial not null,
   place_id           int references places (place_id) on delete cascade,
   food_id            int references food (food_id) on delete cascade,
   amount             int,
   price_per_item     double precision,
   date               timestamp,
-  primary key (supplies_snacks_id)
+  primary key (supplies_food_id)
 );
 
 create table supplies_drinks

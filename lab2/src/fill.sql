@@ -43,8 +43,7 @@ values ('Контакт бар', 'пр. Просвещения, 25'),
        ('Контакт бар', 'ул. Бухарестская, 74'),
        ('СПБ бар', 'Каменноостровский пр., 37');
 
-insert into food(title
-)
+insert into food(title)
 values ('стрипсы'),
        ('начос');
 
@@ -55,14 +54,14 @@ from places,
 where drinks.title = 'боярский'
   and places.title = 'Контакт бар';
 
-insert into places_food(place_id, snack_id)
+insert into places_food(place_id, food_id)
 select distinct place_id, food_id
 from places,
      food
 where food.title = 'стрипсы'
   and places.title = 'Контакт бар';
 
-insert into places_food(place_id, snack_id)
+insert into places_food(place_id, food_id)
 select distinct place_id, food_id
 from places,
      food

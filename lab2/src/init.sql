@@ -84,5 +84,5 @@ CREATE TABLE food
 CREATE TABLE places_food
 (
   place_id integer NOT NULL references places (place_id) on delete cascade,
-  snack_id integer NOT NULL references food (food_id) on delete cascade
+  food_id integer NOT NULL references food (food_id) on delete cascade
 );
