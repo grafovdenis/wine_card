@@ -1,0 +1,94 @@
+% !TeX spellcheck = ru_RU
+\include{settings}
+\usepackage{minted}
+
+\begin{document}	% начало документа
+
+% Титульная страница
+\include{titlepage}
+
+\newpage
+\setcounter{page}{2}
+% Содержание
+\include{ToC}
+
+
+\section{Цель работы}
+Сформировать набор данных, позволяющий производить операции на реальных объемах данных.
+
+\section{Программа работы}
+	\begin {enumerate}
+	\item Реализация в виде программы параметризуемого генератора, который позволит сформировать набор связанных данных в каждой таблице.
+	\item Частные требования к генератору, набору данных и результирующему набору данных:
+	\begin{itemize}
+		\item количество записей в справочных таблицах должно соответствовать ограничениям предметной области
+		\item количество записей в таблицах, хранящих информацию об объектах или субъектах должно быть параметром генерации
+		\item значения для внешних ключей необходимо брать из связанных таблиц
+	\end{itemize}
+	\end {enumerate}
+
+\section{Выполнение работы}
+В качестве языка программирования для параметризуемого создания генератора был выбран Python 3.6 и библиотека psycopg2 - самая популярная библиотека для работы с PostgreSQL.
+
+В ходе выполнения работы была написана программа, реализующая генератор.
+Код программы приведён ниже.
+
+\large {Листинг 1. fill.py}
+\inputminted[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+fontsize=\footnotesize,
+linenos
+]{python}{../src/fill.py}
+
+\section {Результат работы}
+
+Запустим данную программу через терминал.
+
+\begin{lstlisting}
+(base) grafa@KRAB:~/Desktop/wine_card/lab3/src$ python fill.py
+Successfully filled components and drinks!
+Successfully filled places!
+Successfully filled food!
+Successfully filled places_food!
+Successfully filled places_drinks!
+Successfully filled discounts!
+Successfully filled supplies_drinks!
+Successfully filled supplies_food!
+\end{lstlisting}
+
+Примеры генерируемых данных:
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=0.3]{./pics/components.png}
+		\caption{Содержимое таблицы components} 
+		\label{pic:components} % название для ссылок внутри кода
+	\end{center}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=0.5]{./pics/supplies_drinks.png}
+		\caption{Содержимое таблицы supplies\_drinks} 
+		\label{pic:supplies_drinks} % название для ссылок внутри кода
+	\end{center}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=0.5]{./pics/discounts.png}
+		\caption{Содержимое таблицы discounts} 
+		\label{pic:discounts} % название для ссылок внутри кода
+	\end{center}
+\end{figure}
+
+
+\newpage
+\section{Выводы}
+
+В ходе выполнения данной работы на языке программирования Python был написан параметризуемый генератор.
+В качестве параметра данного генератора можно указать количество записей в таблицах, как это и требовало задание.
+\end{document}
+
