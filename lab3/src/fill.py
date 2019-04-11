@@ -1,5 +1,6 @@
 import random
 import string
+from datetime import datetime
 
 import psycopg2
 from psycopg2 import sql
@@ -18,6 +19,11 @@ def rand_string():
     return ''.join(
         random.choice(string.ascii_letters + string.digits) for _ in
         range(random.randint(1, MAX_LEN_OF_RAND_STR)))
+
+
+def random_date():
+    return datetime(random.randint(2005, 2025), random.randint(1, 12), random.randint(1, 28), random.randint(0, 24),
+                    random.randint(0, 59), random.randint(0, 59))
 
 
 def fill_components_and_drinks(components_size=100, drinks_size=100, max_components_per_drink=10):
@@ -176,10 +182,11 @@ def fill_supplies_drinks(size=10):
             cursor.execute(
                 "select drink_id from drinks where title = '{}'".format(drinks[random.randint(0, len(drinks) - 1)][0]))
             rand_drink_id = cursor.fetchone()
-            supplies_drinks.append((rand_place_id, rand_drink_id, rand_amount, rand_price))
+            date = random_date()
+            supplies_drinks.append((rand_place_id, rand_drink_id, rand_amount, rand_price, date))
 
         insert_supplies_drinks = sql.SQL(
-            'INSERT INTO supplies_drinks(place_id, drink_id, amount, price_per_item) VALUES {}').format(
+            'INSERT INTO supplies_drinks(place_id, drink_id, amount, price_per_item, date) VALUES {}').format(
             sql.SQL(',').join(map(sql.Literal, supplies_drinks))
         )
         cursor.execute(insert_supplies_drinks)
@@ -198,10 +205,11 @@ def fill_supplies_food(size=10):
             cursor.execute(
                 "select food_id from food where title = '{}'".format(food[random.randint(0, len(food) - 1)][0]))
             rand_food_id = cursor.fetchone()
-            supplies_food.append((rand_place_id, rand_food_id, rand_amount, rand_price))
+            date = random_date()
+            supplies_food.append((rand_place_id, rand_food_id, rand_amount, rand_price, date))
 
         insert_supplies_drinks = sql.SQL(
-            'INSERT INTO supplies_food(place_id, food_id, amount, price_per_item) VALUES {}').format(
+            'INSERT INTO supplies_food(place_id, food_id, amount, price_per_item, date) VALUES {}').format(
             sql.SQL(',').join(map(sql.Literal, supplies_food))
         )
         cursor.execute(insert_supplies_drinks)
