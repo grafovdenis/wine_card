@@ -22,8 +22,7 @@ def rand_string():
 
 
 def random_date():
-    return datetime(random.randint(2005, 2025), random.randint(1, 12), random.randint(1, 28), random.randint(0, 24),
-                    random.randint(0, 59), random.randint(0, 59))
+    return datetime.fromtimestamp(datetime.now().timestamp() - random.randint(0, 608915602))
 
 
 def fill_components_and_drinks(components_size=100, drinks_size=100, max_components_per_drink=10):
@@ -99,12 +98,12 @@ def fill_food(food_size=100):
         print("Successfully filled food!")
 
 
-def fill_places_food(size=100, max_food_per_place=10):
+def fill_places_food(size=1000, max_food_per_place=10):
     places_food = []  # [place_id, food_id)
     records = 0
     with conn.cursor() as cursor:
         conn.autocommit = True
-        for k in range(0, len(places) - 1):
+        for k in range(0, size):
             cursor.execute(
                 "select place_id from places where title = '{}';".format(places[random.randint(0, len(places) - 1)][0]))
             rand_place_id = cursor.fetchone()
@@ -123,12 +122,12 @@ def fill_places_food(size=100, max_food_per_place=10):
         print("Successfully filled places_food!")
 
 
-def fill_places_drinks(size=100, max_drinks_per_place=10):
+def fill_places_drinks(size=1000, max_drinks_per_place=10):
     places_drinks = []  # [place_id, drink_id)
     records = 0
     with conn.cursor() as cursor:
         conn.autocommit = True
-        for k in range(0, len(places) - 1):
+        for k in range(0, size):
             cursor.execute(
                 "select place_id from places where title = '{}';".format(places[random.randint(0, len(places) - 1)][0]))
             rand_place_id = cursor.fetchone()
@@ -148,11 +147,10 @@ def fill_places_drinks(size=100, max_drinks_per_place=10):
         print("Successfully filled places_drinks!")
 
 
-def fill_discounts(size=10):
-    records = 0
+def fill_discounts(size=1000):
     discounts = []
     with conn.cursor() as cursor:
-        while records < size:
+        for i in range(0, size):
             cursor.execute(
                 "select place_id from places where title = '{}';".format(places[random.randint(0, len(places) - 1)][0]))
             rand_place_id = cursor.fetchone()
@@ -160,7 +158,6 @@ def fill_discounts(size=10):
             rand_description = rand_string()
             discounts.append(
                 (rand_place_id, drink_type[random.randint(0, len(drink_type) - 1)], rand_amount, rand_description))
-            records += 1
 
         insert_discounts = sql.SQL(
             'INSERT INTO discounts(place_id, drink_type, amount, description) VALUES {}').format(
@@ -170,7 +167,7 @@ def fill_discounts(size=10):
         print("Successfully filled discounts!")
 
 
-def fill_supplies_drinks(size=10):
+def fill_supplies_drinks(size=1000):
     supplies_drinks = []
     with conn.cursor() as cursor:
         for i in range(0, size):
@@ -193,7 +190,7 @@ def fill_supplies_drinks(size=10):
         print("Successfully filled supplies_drinks!")
 
 
-def fill_supplies_food(size=10):
+def fill_supplies_food(size=1000):
     supplies_food = []
     with conn.cursor() as cursor:
         for i in range(0, size):
@@ -240,11 +237,14 @@ if __name__ == '__main__':
     food = []  # [title, average_price]
     places = []  # [title, address]
 
-    fill_components_and_drinks()
-    fill_places()
-    fill_food()
-    fill_places_food()
-    fill_places_drinks()
-    fill_discounts()
-    fill_supplies_drinks()
-    fill_supplies_food()
+    try:
+        fill_components_and_drinks()
+        fill_places()
+        fill_food()
+        fill_places_food()
+        fill_places_drinks()
+        fill_discounts()
+        fill_supplies_drinks()
+        fill_supplies_food()
+    except psycopg2.Error as e:
+        pass
