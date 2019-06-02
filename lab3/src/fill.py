@@ -40,11 +40,16 @@ def fill_components_and_drinks(components_size=100, drinks_size=100, max_compone
 
         for i in range(drinks_size):
             rand_drink = rand_string()
+            rand_rating = random.uniform(1, 10)
             rand_vol = random.randint(100, 1000)
-            rand_alco = random.randint(0, 100)
-            drinks.append((rand_drink, rand_vol, rand_alco, drink_type[random.randint(0, len(drink_type) - 1)]))
+            rand_price = random.randint(100, 1000)
+            rand_type = drink_type[random.randint(0, len(drink_type) - 1)]
+            rand_alco = random.randint(0, 100) if drink_type != 'безалкогольные' else 0
+            drinks.append(
+                (rand_drink, rand_rating, rand_vol, rand_alco, rand_price, rand_type))
 
-        insert_drinks = sql.SQL('INSERT INTO drinks(title, volume, alcohol, drink_type) VALUES {}').format(
+        insert_drinks = sql.SQL(
+            'INSERT INTO drinks(title, rating, volume, alcohol, average_price, drink_type) VALUES {}').format(
             sql.SQL(',').join(map(sql.Literal, drinks))
         )
         cursor.execute(insert_drinks)
@@ -53,7 +58,8 @@ def fill_components_and_drinks(components_size=100, drinks_size=100, max_compone
         for drink in drinks:
             cursor.execute("select drink_id from drinks where title = '{}'".format(drink[0]))
             rand_drink_id = cursor.fetchone()
-            for i in range(0, max_components_per_drink):
+            rand_connections_count = random.randint(1, max_components_per_drink)
+            for i in range(0, rand_connections_count):
                 cursor.execute("select component_id from components where title = '{}';".format(
                     components[random.randint(0, len(components) - 1)][0]))
                 rand_component_id = cursor.fetchone()
@@ -89,9 +95,10 @@ def fill_food(food_size=100):
         for i in range(food_size):
             rand_title = rand_string()
             rand_price = random.randint(1, 10000)
-            food.append((rand_title, rand_price))
+            rand_rating = round(random.uniform(1, 10), 2)
+            food.append((rand_title, rand_price, rand_rating))
 
-        insert_food = sql.SQL('INSERT INTO food(title, average_price) VALUES {}').format(
+        insert_food = sql.SQL('INSERT INTO food(title, average_price, rating) VALUES {}').format(
             sql.SQL(',').join(map(sql.Literal, food))
         )
         cursor.execute(insert_food)
@@ -156,11 +163,17 @@ def fill_discounts(size=1000):
             rand_place_id = cursor.fetchone()
             rand_amount = random.random()
             rand_description = rand_string()
+            rand_end_date = random_date()
+            rand_start_date = random_date()
+            while rand_start_date > rand_end_date:
+                rand_end_date = random_date()
+
             discounts.append(
-                (rand_place_id, drink_type[random.randint(0, len(drink_type) - 1)], rand_amount, rand_description))
+                (rand_place_id, drink_type[random.randint(0, len(drink_type) - 1)], rand_amount, rand_description,
+                 rand_start_date, rand_end_date))
 
         insert_discounts = sql.SQL(
-            'INSERT INTO discounts(place_id, drink_type, amount, description) VALUES {}').format(
+            'INSERT INTO discounts(place_id, drink_type, amount, description, time_start, time_end) VALUES {}').format(
             sql.SQL(',').join(map(sql.Literal, discounts))
         )
         cursor.execute(insert_discounts)
@@ -244,7 +257,7 @@ if __name__ == '__main__':
         fill_places_food()
         fill_places_drinks()
         fill_discounts()
-        fill_supplies_drinks()
+        fill_supplies_drinks(size=100000)
         fill_supplies_food()
     except psycopg2.Error as e:
-        pass
+        print(e.pgerror)
