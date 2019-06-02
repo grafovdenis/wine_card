@@ -4,8 +4,8 @@ values ('водка', 40),
        ('гренадин', 0),
        ('соус табаско', 0);
 
-insert into drinks(title, volume, alcohol, drink_type)
-values ('боярский', 50, 40 / 2, 'шоты');
+insert into drinks(title, rating, volume, alcohol, average_price, drink_type)
+values ('боярский', 9, 50, 40 / 2, 200, 'шоты');
 
 insert into components_drinks(component_id, drink_id, quantity)
 values ((select component_id from components where title = 'водка'),
@@ -19,8 +19,8 @@ values ((select component_id from components where title = 'водка'),
 insert into components(title, alcohol)
 values ('томатный сок', 0);
 
-insert into drinks(title, volume, alcohol, drink_type)
-values ('кровавая мэри', 50, 40 / 2, 'шоты');
+insert into drinks(title, rating, volume, alcohol, average_price, drink_type)
+values ('кровавая мэри', 9.5, 50, 40 / 2, 200, 'шоты');
 
 insert into components_drinks(component_id, drink_id)
 values ((select component_id from components where title = 'водка'),
@@ -43,9 +43,9 @@ values ('Контакт бар', 'пр. Просвещения, 25'),
        ('Контакт бар', 'ул. Бухарестская, 74'),
        ('СПБ бар', 'Каменноостровский пр., 37');
 
-insert into food(title)
-values ('стрипсы'),
-       ('начос');
+insert into food(title, rating)
+values ('стрипсы', 9.5),
+       ('начос', 8);
 
 insert into places_drinks(place_id, drink_id)
 select distinct place_id, drink_id
