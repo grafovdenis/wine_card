@@ -163,6 +163,7 @@ def fill_discounts(size=1000):
             rand_place_id = cursor.fetchone()
             rand_amount = random.random()
             rand_description = rand_string()
+            rand_weekday = random.randint(1, 7)
             rand_end_date = random_date()
             rand_start_date = random_date()
             while rand_start_date > rand_end_date:
@@ -170,10 +171,11 @@ def fill_discounts(size=1000):
 
             discounts.append(
                 (rand_place_id, drink_type[random.randint(0, len(drink_type) - 1)], rand_amount, rand_description,
+                 rand_weekday,
                  rand_start_date, rand_end_date))
 
         insert_discounts = sql.SQL(
-            'INSERT INTO discounts(place_id, drink_type, amount, description, time_start, time_end) VALUES {}').format(
+            'INSERT INTO discounts(place_id, drink_type, amount, description, weekday, time_start, time_end) VALUES {}').format(
             sql.SQL(',').join(map(sql.Literal, discounts))
         )
         cursor.execute(insert_discounts)
