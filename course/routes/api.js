@@ -4,9 +4,10 @@ const path = require('path');
 const fs = require('fs');
 const sequelize = require('sequelize');
 const db = new sequelize(
-    'wine_card', 'postgres', '1234', {
-        host: 'localhost',
-        dialect: 'postgres'
+    process.env.POSTGRES_DB, process.env.POSTGRES_USER, process.env.POSTGRES_PASSWORD, {
+        host: process.env.DB_HOST,
+        dialect: 'postgres',
+        port: 5432
     }
 );
 

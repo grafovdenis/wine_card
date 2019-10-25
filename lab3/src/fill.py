@@ -1,18 +1,10 @@
+import os
 import random
 import string
 from datetime import datetime
 
 import psycopg2
 from psycopg2 import sql
-
-
-def readConfig():
-    result = {}
-    file = open('../../user.ini', 'r')
-    for line in file.readlines():
-        splitted = line.split('=')
-        result[splitted[0]] = splitted[1].replace('\n', '')
-    return result
 
 
 def rand_string():
@@ -229,17 +221,18 @@ def fill_supplies_food(size=1000):
 
 
 if __name__ == '__main__':
-    config = readConfig()
-    user = config['user']
-    password = config['password']
-    conn = psycopg2.connect(dbname='wine_card', user=user, password=password, host='localhost')
+    user = os.environ['POSTGRES_USER']
+    password = os.environ['POSTGRES_PASSWORD']
+    dbname = os.environ['POSTGRES_DB']
+    host = os.environ['DB_HOST']
+    conn = psycopg2.connect(dbname=dbname, user=user, password=password, host=host)
 
     # set default settings
     with conn.cursor() as cursor:
         conn.autocommit = True
-        cursor.execute(open("../../lab2/src/init.sql", "r").read())
-        cursor.execute(open("../../lab2/src/fill.sql", "r").read())
-        cursor.execute(open("../../lab2/src/change.sql", "r").read())
+        cursor.execute(open("lab2/src/init.sql", "r").read())
+        cursor.execute(open("lab2/src/fill.sql", "r").read())
+        cursor.execute(open("lab2/src/change.sql", "r").read())
 
         cursor.execute('SELECT unnest(enum_range(NULL::drink_type))::text;')
         drink_type = cursor.fetchall()
