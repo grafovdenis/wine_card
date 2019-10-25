@@ -40,3 +40,6 @@ _minted-report/
 ### OTHER ###
 .idea/
 *.ini
+
+### NODE_MODULES ###
+node_modules/
