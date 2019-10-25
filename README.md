@@ -1,7 +1,8 @@
 # Винная карта - учебный проект по базам данных.
 ## Содержание
 * [Общая информация](#общая-информация)
-* [Структура](#Структура)
+* [Структура](#структура)
+* [Запуск](#запуск)
 
 ## Общая информация
 На данный момент проект содержит 10 таблиц: 5 основных и 5 для связей [n-n](https://en.wikipedia.org/wiki/Many-to-many_(data_model)).
@@ -39,3 +40,12 @@ CREATE TYPE drink_type AS ENUM (
   <img src="http://gitlab.icc.spbstu.ru/grafa/wine_card/raw/master/structure.png"  width="800"/>
 </a>
 
+## Запуск
+Вы можете запустить сервисы, содержащие веб-приложение на NodeJS и базу данных, используя docker-compose.  
+```
+docker-compose -f docker-compose.yml up -d server
+```
+По умолчанию база данных пустая, чтобы заполнить её случайными данными, выполните команду ниже.  
+```
+docker-compose -f docker-compose.yml run fill
+```
