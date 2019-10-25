@@ -1,0 +1,29 @@
+version: '3'
+services:
+  server:
+    build: 
+      context: .
+      dockerfile: Dockerfile.server
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile.db
+    env_file:
+      - .env
+    volumes:
+      - vol:/var/lib/postgresql/data
+  fill:
+    build: 
+      context: .
+      dockerfile: Dockerfile.fill
+    env_file:
+      - .env
+
+volumes:
+  vol:

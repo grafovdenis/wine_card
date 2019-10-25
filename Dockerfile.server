@@ -1,0 +1,9 @@
+FROM node:alpine
+
+WORKDIR /app
+
+COPY course/ .
+
+RUN npm install
+RUN cd vue/ && npm install && npm run build && cd ../
+CMD [ "npm", "run", "start" ]
